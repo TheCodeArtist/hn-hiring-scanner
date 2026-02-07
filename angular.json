@@ -51,7 +51,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/hn-hiring-scanner/",
+              "baseHref": "/hn-hiring-frontend/",
               "optimization": {
                 "scripts": true,
                 "styles": {
