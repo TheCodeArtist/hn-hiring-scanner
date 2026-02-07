@@ -28,21 +28,18 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        working-directory: hn-hiring-frontend
         run: npm ci
       
       - name: Build Angular application
-        working-directory: hn-hiring-frontend
         run: npm run build
       
       - name: Copy index.html to 404.html for SPA routing
-        working-directory: hn-hiring-frontend
         run: cp dist/hn-hiring-frontend/browser/index.html dist/hn-hiring-frontend/browser/404.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: hn-hiring-frontend/dist/hn-hiring-frontend/browser
+          path: dist/hn-hiring-frontend/browser
 
   deploy:
     environment:
