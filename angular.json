@@ -26,7 +26,6 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "baseHref": "/hn-hiring-scanner/",
             "assets": [
               {
                 "glob": "**/*",
@@ -52,6 +51,7 @@
                 }
               ],
               "outputHashing": "all",
+              "baseHref": "/hn-hiring-scanner/",
               "optimization": {
                 "scripts": true,
                 "styles": {
