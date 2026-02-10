@@ -1,4 +1,4 @@
-.PHONY: help install dev build test format check-format watch clean clean-all status rebuild
+.PHONY: help install_deps dev build test format check-format watch clean clean-all status rebuild
 
 # Default target
 .DEFAULT_GOAL := help
@@ -24,7 +24,7 @@ help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  $(CYAN)%-20s$(NC) %s\n", $$1, $$2}'
 	@printf "\n"
 
-install: ## Install dependencies
+install_deps: ## Install dependencies
 	@printf "$(GREEN)Installing dependencies...$(NC)\n"
 	$(NPM) install
 
@@ -69,7 +69,7 @@ status: ## Show project status
 	@if [ -d node_modules ]; then \
 		printf "  $(GREEN)✓$(NC) Dependencies installed\n"; \
 	else \
-		printf "  $(RED)✗$(NC) Dependencies not installed (run 'make install')\n"; \
+		printf "  $(RED)✗$(NC) Dependencies not installed (run 'make install_deps')\n"; \
 	fi
 	@if [ -d dist ]; then \
 		printf "  $(GREEN)✓$(NC) Build exists\n"; \
