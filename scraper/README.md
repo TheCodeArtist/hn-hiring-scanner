@@ -114,6 +114,96 @@ python hn-api-scraper.py 46857488 \
   --log-file "scraper_$(date +%Y%m%d).log"
 ```
 
+### `compare_jobs.py` - Job Comparison Tool
+
+This script compares two JSON files containing HackerNews job postings and identifies entries that are new or have been updated.
+
+**Features:**
+- ✅ Identifies new job entries (entries with IDs not present in original file)
+- ✅ Identifies updated entries (entries where the `text` field has changed)
+- ✅ Comprehensive logging to file and console
+- ✅ Detailed summary statistics
+- ✅ JSON output with comparison metadata
+- ✅ Error handling for malformed data
+
+**Usage:**
+
+```bash
+# Basic comparison
+python compare_jobs.py --original old_jobs.json --updated new_jobs.json
+
+# Custom output and log files
+python compare_jobs.py \
+  --original old_jobs.json \
+  --updated new_jobs.json \
+  --output changes.json \
+  --log comparison.log
+```
+
+**Command-line Arguments:**
+- `--original` (required): Path to the original JSON file
+- `--updated` (required): Path to the updated JSON file
+- `--output`: Output JSON file path (default: `updated_entries.json`)
+- `--log`: Log file path (default: `comparison.log`)
+
+**Output Format:**
+
+The script generates a JSON file with the following structure:
+
+```json
+{
+  "comparison_date": "2026-02-10T13:24:04.626952+00:00",
+  "original_file": "old_jobs.json",
+  "updated_file": "new_jobs.json",
+  "summary": {
+    "total_original": 100,
+    "total_updated": 108,
+    "new_entries": 10,
+    "updated_entries": 3,
+    "unchanged_entries": 95
+  },
+  "new_entries": [
+    {
+      "by": "username",
+      "id": 100004,
+      "text": "New job posting...",
+      ...
+    }
+  ],
+  "updated_entries": [
+    {
+      "by": "username",
+      "id": 100002,
+      "text": "Updated job posting...",
+      ...
+    }
+  ]
+}
+```
+
+**Comparison Logic:**
+- **New Entry**: An entry with an `id` that doesn't exist in the original file
+- **Updated Entry**: An entry where the `id` exists in both files but the `text` field has changed (exact string match)
+- **Unchanged Entry**: An entry where both `id` and `text` are identical
+
+**Example Workflow:**
+
+```bash
+# 1. Scrape the current month's jobs
+python hn-api-scraper.py 46857488 --output jan_2026.json
+
+# ... wait a few days ...
+
+# 2. Scrape again to get updates
+python hn-api-scraper.py 46857488 --output jan_2026_updated.json
+
+# 3. Find what changed
+python compare_jobs.py \
+  --original jan_2026.json \
+  --updated jan_2026_updated.json \
+  --output jan_changes.json
+```
+
 ---
 
 ## License
